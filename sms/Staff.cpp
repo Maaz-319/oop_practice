@@ -1,20 +1,17 @@
 #include "Staff.h"
-#include "Utility.h" // Utility class for printing headers and messages
+#include "Utility.h"
 #include <iostream>
 using namespace std;
 
-int Staff::count = 0; // Initialize static member variable
+int Staff::count = 0;
 
-#include "Person.h" // Base class for Person
-// Constructor initializes name, age, designation, staff_id, and increments count
 Staff::Staff(string name, int age, string designation, int staff_id)
     : Person(name, age), designation(designation), staff_id(staff_id)
 {
-    count++; // Increment the count of Staff objects
-    type = "Staff"; // Set the type to "Staff"
+    count++;
+    type = "Staff";
 }
 
-// Print details of the staff member
 void Staff::printDetails()
 {
     Utility::print_header("Staff Details");
@@ -24,7 +21,6 @@ void Staff::printDetails()
          << "Staff ID: " << staff_id << endl;
 }
 
-// Get staff member by ID and print their details
 int Staff::get_by_id(int id, Person **data)
 {
     for (int i = 0; i < 100; i++)
@@ -39,7 +35,6 @@ int Staff::get_by_id(int id, Person **data)
     return -1;
 }
 
-// Save the staff member to the data array, either at a new index or at a specified index
 bool Staff::save(Person **data, int index)
 {
     if (index == -1)

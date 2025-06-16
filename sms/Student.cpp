@@ -4,17 +4,15 @@
 #include <conio.h>
 using namespace std;
 
-int Student::count = 0; // Initialize static member variable
+int Student::count = 0;
 
-
-// Constructor initializes name, age, stud_id, and increments count
 Student::Student(string name, int age, int stud_id) : Person(name, age), stud_id(stud_id)
 {
     count++;
     type = "Student";
 }
 
-void Student::printDetails() // Print details of the student
+void Student::printDetails()
 {
     Utility::print_header("Student Details");
     cout << "Name: " << name << "\n"
@@ -22,7 +20,7 @@ void Student::printDetails() // Print details of the student
          << "Student ID: " << stud_id << endl;
 }
 
-int Student::get_by_id(int id, Person **data) // Get student by ID and print their details
+int Student::get_by_id(int id, Person **data)
 {
     for (int i = 0; i < 100; i++)
     {
@@ -36,7 +34,7 @@ int Student::get_by_id(int id, Person **data) // Get student by ID and print the
     return -1;
 }
 
-bool Student::save(Person **data, int index) // Save the student to the data array, either at a new index or at a specified index
+bool Student::save(Person **data, int index)
 {
     if (index == -1)
     {

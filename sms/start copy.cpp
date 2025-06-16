@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Utility.h"
+#include "Colors.h"
 #include "Person.h"
 #include "Student.h"
 #include "Teacher.h"
