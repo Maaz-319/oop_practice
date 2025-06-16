@@ -13,10 +13,10 @@
 
 using namespace std;
 
-Person **data = new Person *[100];
+Person **data = new Person *[100]; // Array to hold pointers to Person objects
 
 // FUNCTIONS FOR ENTER DATA
-void add_student()
+void add_student() // Input from user to add a new student
 {
     Utility::print_header("ADD NEW STUDENT");
     string name;
@@ -46,7 +46,7 @@ void add_student()
     getch();
 }
 
-void add_teacher()
+void add_teacher() // Input from user to add a new teacher
 {
     Utility::print_header("ADD NEW TEACHER");
     string name, subject;
@@ -81,7 +81,7 @@ void add_teacher()
     getch();
 }
 
-void add_staff()
+void add_staff() // Input from user to add a new staff member
 {
     Utility::print_header("ADD NEW STAFF");
     string designation;

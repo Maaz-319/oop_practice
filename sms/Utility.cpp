@@ -7,6 +7,9 @@
 
 using namespace std;
 
+
+// This contains functions for printing various messages and formatting output in the console.
+
 void Utility::print_line(int length = 50)
 {
     for (int i = 0; i < length; i++)
