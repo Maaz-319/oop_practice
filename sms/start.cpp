@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Utility.h"
+#include "Colors.h"
 #include "Person.h"
 #include "Student.h"
 #include "Teacher.h"
@@ -12,20 +13,26 @@
 
 using namespace std;
 
-Person **data = new Person *[100];
+Person **data = new Person *[100]; // Array to hold pointers to Person objects
 
 // FUNCTIONS FOR ENTER DATA
-void add_student()
+void add_student() // Input from user to add a new student
 {
     Utility::print_header("ADD NEW STUDENT");
     string name;
     int age, id;
+    setConsoleColor("lightcyan");
     cout << "Student Name: ";
+    resetConsoleColor();
     cin.ignore();
     getline(cin, name);
+    setConsoleColor("lightcyan");
     cout << "Student Age: ";
+    resetConsoleColor();
     cin >> age;
+    setConsoleColor("lightcyan");
     cout << "Student ID: ";
+    resetConsoleColor();
     cin >> id;
     Student *student = new Student(name, age, id);
     if (student->save(data))
@@ -39,20 +46,28 @@ void add_student()
     getch();
 }
 
-void add_teacher()
+void add_teacher() // Input from user to add a new teacher
 {
     Utility::print_header("ADD NEW TEACHER");
     string name, subject;
     int age, id;
+    setConsoleColor("lightcyan");
     cout << "Teacher Name: ";
+    resetConsoleColor();
     cin.ignore();
     getline(cin, name);
+    setConsoleColor("lightcyan");
     cout << "Teacher Age: ";
+    resetConsoleColor();
     cin >> age;
+    setConsoleColor("lightcyan");
     cout << "Subject: ";
+    resetConsoleColor();
     cin.ignore();
     getline(cin, subject);
+    setConsoleColor("lightcyan");
     cout << "Teacher ID: ";
+    resetConsoleColor();
     cin >> id;
     Teacher *teacher = new Teacher(name, age, subject, id);
     if (teacher->save(data))
@@ -66,21 +81,29 @@ void add_teacher()
     getch();
 }
 
-void add_staff()
+void add_staff() // Input from user to add a new staff member
 {
     Utility::print_header("ADD NEW STAFF");
     string designation;
     string name;
     int age, id;
+    setConsoleColor("lightcyan");
     cout << "Staff Name: ";
+    resetConsoleColor();
     cin.ignore();
     getline(cin, name);
+    setConsoleColor("lightcyan");
     cout << "Staff Age: ";
+    resetConsoleColor();
     cin >> age;
+    setConsoleColor("lightcyan");
     cout << "Designation: ";
+    resetConsoleColor();
     cin.ignore();
     getline(cin, designation);
+    setConsoleColor("lightcyan");
     cout << "Staff ID: ";
+    resetConsoleColor();
     cin >> id;
     Staff *staff = new Staff(name, age, designation, id);
     if (staff->save(data))
@@ -99,7 +122,9 @@ void get_student_data()
 {
     Utility::print_header("GET STUDENT DATA");
     int id;
+    setConsoleColor("lightcyan");
     cout << "Enter ID to find: ";
+    resetConsoleColor();
     cin >> id;
     if (Student::get_by_id(id, data) == -1)
     {
@@ -112,7 +137,9 @@ void get_teacher_data()
 {
     Utility::print_header("GET TEACHER DATA");
     int id;
+    setConsoleColor("lightcyan");
     cout << "Enter ID to find: ";
+    resetConsoleColor();
     cin >> id;
     if (Teacher::get_by_id(id, data) == -1)
     {
@@ -125,7 +152,9 @@ void get_staff_data()
 {
     Utility::print_header("GET STAFF DATA");
     int id;
+    setConsoleColor("lightcyan");
     cout << "Enter ID to find: ";
+    resetConsoleColor();
     cin >> id;
     if (Staff::get_by_id(id, data) == -1)
     {
@@ -231,10 +260,10 @@ void enter_data_menu()
             "Add Student",
             "Add Teacher",
             "Add Staff",
-            "Back to Main Menu"};
-
-        Utility::print_menu_box("ENTER DATA MENU", options);
+            "Back to Main Menu"};        Utility::print_menu_box("ENTER DATA MENU", options);
+        setConsoleColor("yellow");
         cout << "Enter your choice (1-4): ";
+        resetConsoleColor();
         cin >> choice;
 
         switch (choice)
@@ -269,10 +298,10 @@ void get_data_menu()
             "Student by ID",
             "Teacher by ID",
             "Staff by ID",
-            "Back to Main Menu"};
-
-        Utility::print_menu_box("VIEW DATA MENU", options);
+            "Back to Main Menu"};        Utility::print_menu_box("VIEW DATA MENU", options);
+        setConsoleColor("yellow");
         cout << "Enter your choice (1-4): ";
+        resetConsoleColor();
         cin >> choice;
 
         switch (choice)
@@ -307,10 +336,10 @@ void modify_data_menu()
             "Modify Student",
             "Modify Teacher",
             "Modify Staff",
-            "Back to Main Menu"};
-
-        Utility::print_menu_box("MODIFY DATA MENU", options);
+            "Back to Main Menu"};        Utility::print_menu_box("MODIFY DATA MENU", options);
+        setConsoleColor("yellow");
         cout << "Enter your choice (1-4): ";
+        resetConsoleColor();
         cin >> choice;
 
         switch (choice)
@@ -339,18 +368,44 @@ void display_system_stats()
 {
     Utility::print_header("SYSTEM STATISTICS");
 
+    setConsoleColor("lightgreen");
     cout << "Database Status:" << endl;
+    resetConsoleColor();
     Utility::print_dashed_line(20);
-    cout << "Total Records: " << Person::getCount() << "/100" << endl;
-    cout << "Available Slots: " << (100 - Person::getCount()) << endl;
-    cout << "Memory Usage: " << (Person::getCount() * 100.0 / 100) << "%" << endl;
+    setConsoleColor("white");
+    cout << "Total Records: ";
+    setConsoleColor("lightcyan");
+    cout << Person::getCount() << "/100" << endl;
+    setConsoleColor("white");
+    cout << "Available Slots: ";
+    setConsoleColor("lightcyan");
+    cout << (100 - Person::getCount()) << endl;
+    setConsoleColor("white");
+    cout << "Memory Usage: ";
+    setConsoleColor("lightcyan");
+    cout << (Person::getCount() * 100.0 / 100) << "%" << endl;
 
+    setConsoleColor("lightgreen");
     cout << "\nRecord Distribution:" << endl;
+    resetConsoleColor();
     Utility::print_dashed_line(25);
-    cout << "Students: " << Student::getCount() << endl;
-    cout << "Teachers: " << Teacher::getCount() << endl;
-    cout << "Staff: " << Staff::getCount() << endl;
-    cout << "Total People: " << Person::getCount() << endl;
+    setConsoleColor("white");
+    cout << "Students: ";
+    setConsoleColor("lightcyan");
+    cout << Student::getCount() << endl;
+    setConsoleColor("white");
+    cout << "Teachers: ";
+    setConsoleColor("lightcyan");
+    cout << Teacher::getCount() << endl;
+    setConsoleColor("white");
+    cout << "Staff: ";
+    setConsoleColor("lightcyan");
+    cout << Staff::getCount() << endl;
+    setConsoleColor("white");
+    cout << "Total People: ";
+    setConsoleColor("lightcyan");
+    cout << Person::getCount() << endl;
+    resetConsoleColor();
 
     Utility::print_success_message("Press any key to continue...");
     getch();
@@ -367,10 +422,10 @@ void main_menu()
             "View Data",
             "Modify Data",
             "System Statistics",
-            "Exit Program"};
-
-        Utility::print_menu_box("SCHOOL MANAGEMENT SYSTEM", options);
+            "Exit Program"};        Utility::print_menu_box("SCHOOL MANAGEMENT SYSTEM", options);
+        setConsoleColor("yellow");
         cout << "Enter your choice (1-5): ";
+        resetConsoleColor();
         cin >> choice;
 
         switch (choice)
@@ -386,16 +441,18 @@ void main_menu()
             break;
         case '4':
             display_system_stats();
-            break;
-        case '5':
+            break;        case '5':
             Utility::print_header("PROGRAM EXIT");
+            setConsoleColor("lightcyan");
             cout << "Thank you for using School Management System!" << endl;
+            resetConsoleColor();
             Utility::print_success_message("Program terminated successfully!");
             getch();
-            break;
-        default:
+            break;        default:
             Utility::print_error_message("Invalid choice! Please select 1-5.");
+            setConsoleColor("yellow");
             cout << "\nPress any key to continue...";
+            resetConsoleColor();
             getch();
         }
     } while (choice != '5');

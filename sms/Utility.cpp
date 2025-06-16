@@ -1,10 +1,14 @@
 #include "Utility.h"
+#include "Colors.h"
 #include <string>
 #include <vector>
 #include <iostream>
 #include <iomanip>
 
 using namespace std;
+
+
+// This contains functions for printing various messages and formatting output in the console.
 
 void Utility::print_line(int length = 50)
 {
@@ -71,17 +75,25 @@ void Utility::print_menu_box(const string &title, const vector<string> &options)
 void Utility::print_success_message(const string &message)
 {
     cout << endl;
+    setConsoleColor("green");
     print_dashed_line(40);
+    setConsoleColor("lightgreen");
     cout << "SUCCESS: " << message << endl;
+    setConsoleColor("green");
     print_dashed_line(40);
+    resetConsoleColor();
 }
 
 void Utility::print_error_message(const string &message)
 {
     cout << endl;
+    setConsoleColor("red");
     print_dashed_line(40);
+    setConsoleColor("lightred");
     cout << "ERROR: " << message << endl;
+    setConsoleColor("red");
     print_dashed_line(40);
+    resetConsoleColor();
 }
 
 void Utility::print_info_box(const string &message)

@@ -3,8 +3,9 @@
 #include <iostream>
 using namespace std;
 
-int Teacher::count = 0;
+int Teacher::count = 0; // Initialize static member variable
 
+// Constructor initializes name, age, subject, teacher_id, and increments count
 Teacher::Teacher(string name, int age, string subject, int teacher_id)
     : Person(name, age), subject(subject), teacher_id(teacher_id)
 {
@@ -12,7 +13,7 @@ Teacher::Teacher(string name, int age, string subject, int teacher_id)
     type = "Teacher";
 }
 
-void Teacher::printDetails()
+void Teacher::printDetails()    // Print details of the teacher
 {
     Utility::print_header("Teacher Details");
     cout << "Name: " << name << "\n"
@@ -21,7 +22,7 @@ void Teacher::printDetails()
          << "Teacher ID: " << teacher_id << endl;
 }
 
-int Teacher::get_by_id(int id, Person **data)
+int Teacher::get_by_id(int id, Person **data) // Get teacher by ID and print their details
 {
     for (int i = 0; i < 100; i++)
     {
@@ -35,7 +36,7 @@ int Teacher::get_by_id(int id, Person **data)
     return -1;
 }
 
-bool Teacher::save(Person **data, int index)
+bool Teacher::save(Person **data, int index) // Save the teacher to the data array, either at a new index or at a specified index
 {
     if (index == -1)
     {
