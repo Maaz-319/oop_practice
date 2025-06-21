@@ -13,6 +13,7 @@ public:
     void printDetails() override;
     static int get_by_id(int id, Person **data);
     bool save(Person **data, int index = -1);
+    string get_subject();
     string printType() override;
     static int getCount();
     int getId() override;

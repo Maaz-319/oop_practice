@@ -60,4 +60,5 @@ bool Teacher::save(Person **data, int index) // Save the teacher to the data arr
 string Teacher::printType() { return type; }
 int Teacher::getCount() { return count; }
 int Teacher::getId() { return teacher_id; }
+string Teacher::get_subject() { return subject; }
 Teacher::~Teacher() {}
