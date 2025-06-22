@@ -13,7 +13,7 @@
 
 using namespace std;
 
-Person **data = new Person *[100]; // Array to hold pointers to Person objects
+Person **data; // Array to hold pointers to Person objects
 
 // FUNCTIONS FOR ENTER DATA
 void add_student() // Input from user to add a new student

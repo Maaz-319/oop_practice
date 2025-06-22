@@ -26,16 +26,14 @@ void save_person(Person **data)
             file_stud << data[i]->getName() << "`"
                       << data[i]->getAge() << "`"
                       << data[i]->getId() << endl;
-        }
-        else if (data[i]->printType() == "Teacher")
+        }        else if (data[i]->printType() == "Teacher")
         {
             Teacher *teacher = static_cast<Teacher *>(data[i]);
             file_teach << data[i]->getName() << "`"
                        << data[i]->getAge() << "`"
                        << data[i]->getId() << "`"
                        << teacher->get_subject() << endl;
-        }
-        else if (data[i]->printType() == "Staff")
+        }        else if (data[i]->printType() == "Staff")
         {
             Staff *staff = static_cast<Staff *>(data[i]);
             file_staff << data[i]->getName() << "`"
