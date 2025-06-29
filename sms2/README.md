@@ -14,7 +14,6 @@ A comprehensive C++ console application for managing student, teacher, and staff
 
 ### 💬 Get in Touch
 
-**📧 Email**: maazbinaasif@gmail.com
 **💼 Portfolio**: [portfolio.maaz.me](https://portfolio.maaz.me)  
 **🌐 Website**: [maaz.me](https://maaz.me)
 </div>
