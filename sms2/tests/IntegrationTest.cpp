@@ -7,9 +7,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <filesystem>
 #include <fstream>  // For file operations
 #include <conio.h>  // For getch()
+#include <sys/stat.h>  // For directory checking
+
+#ifdef _WIN32
+#include <direct.h>  // For _mkdir on Windows
+#define mkdir(path, mode) _mkdir(path)
+#else
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
 
 using namespace std;
 
@@ -22,7 +30,7 @@ int testsFailed = 0;
 // Test framework functions
 void pauseIfRequested() {
     if (pauseAfterEachTest) {
-        cout << "\nPress any key to continue...";
+        cout << "\nPress any key to continue to next test...";
         getch();
         cout << "\n" << endl;
     }
@@ -43,14 +51,14 @@ void printTestResult(const string& testName, bool passed, const string& details 
     testsRun++;
     if (passed) {
         testsPassed++;
-        cout << "\n[INTEGRATION TEST PASSED]: " << testName;
-        if (!details.empty()) cout << " - " << details;
-        cout << endl;
+        string message = "INTEGRATION TEST PASSED: " + testName;
+        if (!details.empty()) message += " - " + details;
+        Utility::print_success_message(message);
     } else {
         testsFailed++;
-        cout << "\n[INTEGRATION TEST FAILED]: " << testName;
-        if (!details.empty()) cout << " - " << details;
-        cout << endl;
+        string message = "INTEGRATION TEST FAILED: " + testName;
+        if (!details.empty()) message += " - " + details;
+        Utility::print_error_message(message);
     }
     pauseIfRequested();
 }
@@ -58,9 +66,20 @@ void printTestResult(const string& testName, bool passed, const string& details 
 void printStep(int stepNum, const string& action, bool result = true) {
     cout << "\nStep " << stepNum << ": " << action;
     if (result) {
+        Utility::set_console_color(Utility::Colors::GREEN);
         cout << " [SUCCESS]" << endl;
+        Utility::reset_console_color();
     } else {
+        Utility::set_console_color(Utility::Colors::RED);
         cout << " [FAILED]" << endl;
+        Utility::reset_console_color();
+    }
+    
+    // Pause after each step if user requested it
+    if (pauseAfterEachTest) {
+        cout << "Press any key to continue to next step...";
+        getch();
+        cout << endl;
     }
 }
 
@@ -70,6 +89,46 @@ void printSubAction(const string& action, const string& result = "") {
         cout << " -> " << result;
     }
     cout << endl;
+    
+    // Pause after each sub-action if user requested it
+    if (pauseAfterEachTest) {
+        cout << "    Press any key to continue...";
+        getch();
+        cout << endl;
+    }
+}
+
+// Helper functions to replace filesystem operations
+bool directoryExists(const string& path) {
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0) {
+        return false;  // Cannot access
+    }
+    return (info.st_mode & S_IFDIR) != 0;  // Is directory
+}
+
+bool fileExists(const string& path) {
+    struct stat info;
+    return stat(path.c_str(), &info) == 0;
+}
+
+bool createDirectory(const string& path) {
+    return mkdir(path.c_str(), 0755) == 0;
+}
+
+string getCurrentPath() {
+    #ifdef _WIN32
+    char buffer[1000];
+    if (_getcwd(buffer, sizeof(buffer)) != nullptr) {
+        return string(buffer);
+    }
+    #else
+    char buffer[1000];
+    if (getcwd(buffer, sizeof(buffer)) != nullptr) {
+        return string(buffer);
+    }
+    #endif
+    return "Unable to determine current path";
 }
 
 // Integration Tests
@@ -198,14 +257,14 @@ bool testDataFileSystemIntegration() {
     bool allPassed = true;
     
     printStep(1, "Checking data directory structure");
-    bool dataDir = filesystem::exists("data");
+    bool dataDir = directoryExists("../data");
     printSubAction("Data directory exists", dataDir ? "YES" : "NO");
     
     if (!dataDir) {
         printSubAction("Creating data directory", "ATTEMPTING");
         try {
-            filesystem::create_directory("data");
-            dataDir = filesystem::exists("data");
+            createDirectory("../data");
+            dataDir = directoryExists("../data");
             printSubAction("Data directory created", dataDir ? "SUCCESS" : "FAILED");
         } catch (...) {
             printSubAction("Data directory creation", "FAILED - Exception");
@@ -215,8 +274,8 @@ bool testDataFileSystemIntegration() {
     printStep(2, "Checking required data files");
     vector<string> requiredFiles = {"students.txt", "teachers.txt", "staff.txt"};
     for (const string& filename : requiredFiles) {
-        string filepath = "data/" + filename;
-        bool exists = filesystem::exists(filepath);
+        string filepath = "../data/" + filename;
+        bool exists = fileExists(filepath);
         printSubAction("File " + filename, exists ? "EXISTS" : "MISSING");
         
         if (!exists) {
@@ -436,7 +495,7 @@ int main() {
     }
     
     cout << "\nPreparing test environment..." << endl;
-    cout << "Current working directory: " << filesystem::current_path() << endl;
+    cout << "Current working directory: " << getCurrentPath() << endl;
     
     // Run all integration tests
     testCompletePersonWorkflow();
@@ -455,12 +514,12 @@ int main() {
     cout << "Success rate: " << (testsRun > 0 ? (testsPassed * 100 / testsRun) : 0) << "%" << endl;
     
     if (testsFailed == 0) {
-        cout << "\n*** ALL INTEGRATION TESTS PASSED! ***" << endl;
+        Utility::print_success_message("ALL INTEGRATION TESTS PASSED!");
         cout << "The complete system is working correctly and all components integrate properly." << endl;
         Utility::print_success_message("System is ready for production use!");
         return 0;
     } else {
-        cout << "\n*** Some integration tests failed. ***" << endl;
+        Utility::print_error_message("Some integration tests failed.");
         cout << "Please review the failed components and their interactions." << endl;
         Utility::print_error_message("System needs attention before deployment!");
         return 1;

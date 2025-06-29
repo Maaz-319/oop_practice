@@ -23,14 +23,15 @@
 *.a
 *.lib
 
-# Executables
-*.exe
+# Executables (excluding build directory executables)
 *.out
 *.app
-sms
-sms.exe
-SchoolManagementSystem
-SchoolManagementSystem.exe
+# Allow .exe files in build directory
+# *.exe
+# sms
+# sms.exe
+# SchoolManagementSystem
+# SchoolManagementSystem.exe
 
 # Debug files
 *.dSYM/
@@ -50,8 +51,14 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
-build/
+# Allow build directory and its contents (including .exe and .bat files)
+# build/
 out/
+
+# Specifically allow executable and batch files in build directory
+!build/*.exe
+!build/*.bat
+!*.bat
 
 # Visual Studio
 .vs/

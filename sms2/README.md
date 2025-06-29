@@ -172,20 +172,32 @@ Safely exit the application with automatic data saving.
 
 ## 🗂️ Data Storage
 
-The system uses file-based storage with separate files for each entity type:
+The system uses file-based storage with separate files for each entity type. The data directory is located in the project root, while executables are in the `build/` folder:
 
 ```
-data/
-├── students.txt    # Student records
-├── teachers.txt    # Teacher records
-└── staff.txt       # Staff records
+project-root/
+├── data/                    # Data storage (project root)
+│   ├── students.txt         # Student records
+│   ├── teachers.txt         # Teacher records
+│   └── staff.txt            # Staff records
+└── build/                   # Compiled executables
+    ├── sms.exe              # Main application
+    ├── UnitTest.exe         # Unit tests
+    └── IntegrationTest.exe  # Integration tests
 ```
 
 ### Data Persistence Features
-- **Automatic Loading**: Data loaded on program start
-- **Automatic Saving**: Data saved on program exit
+- **Automatic Loading**: Data loaded on program start from `../data/` (relative to executable)
+- **Automatic Saving**: Data saved on program exit to `../data/` directory
+- **Directory Auto-Creation**: Data directory created automatically if missing
 - **Data Integrity**: File validation and error handling
 - **Capacity Management**: Maximum 100 total records
+- **Cross-Platform Paths**: Works on Windows, Linux, and macOS
+
+### Important Notes
+- **Run from build/ directory**: `cd build && ./sms.exe` (recommended)
+- **Run from project root**: `./build/sms.exe` (also works)
+- **Data files**: Always stored in project-root/data/ regardless of execution location
 
 ## 🧪 Testing
 

@@ -6,16 +6,33 @@
 
 #include <iostream>
 #include <fstream>
+#include <sys/stat.h>
+
+#ifdef _WIN32
 #include <direct.h>
+#define mkdir(path, mode) _mkdir(path)
+#else
+#include <unistd.h>
+#endif
+
 using namespace std;
+
+// Helper function to create directory if it doesn't exist
+void ensureDataDirectory() {
+    struct stat info;
+    if (stat("../data", &info) != 0) {
+        // Directory doesn't exist, create it
+        mkdir("../data", 0755);
+    }
+}
 
 void save_person(Person **data)
 {
-    _mkdir("data");
+    ensureDataDirectory();
 
-    ofstream file_stud("/data/students.txt");
-    ofstream file_teach("/data/teachers.txt");
-    ofstream file_staff("/data/staff.txt");
+    ofstream file_stud("../data/students.txt");
+    ofstream file_teach("../data/teachers.txt");
+    ofstream file_staff("../data/staff.txt");
 
     if (!file_stud.is_open() || !file_teach.is_open() || !file_staff.is_open())
     {
@@ -67,9 +84,9 @@ Person **read_person()
     }
     
     // Fix: Read from data folder instead of root directory
-    ifstream file_stud("data/students.txt");
-    ifstream file_teach("data/teachers.txt");
-    ifstream file_staff("data/staff.txt");
+    ifstream file_stud("../data/students.txt");
+    ifstream file_teach("../data/teachers.txt");
+    ifstream file_staff("../data/staff.txt");
 
     // If files don't exist (first run), create empty files and return empty data
     if (!file_stud.is_open() || !file_teach.is_open() || !file_staff.is_open())

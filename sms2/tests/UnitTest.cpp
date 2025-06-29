@@ -19,7 +19,7 @@ int testsFailed = 0;
 // Test framework functions
 void pauseIfRequested() {
     if (pauseAfterEachTest) {
-        cout << "\nPress any key to continue...";
+        cout << "\nPress any key to continue to next test...";
         getch();
         cout << "\n" << endl;
     }
@@ -37,14 +37,14 @@ void printTestResult(const string& testName, bool passed, const string& details 
     testsRun++;
     if (passed) {
         testsPassed++;
-        cout << "[PASSED]: " << testName;
-        if (!details.empty()) cout << " - " << details;
-        cout << endl;
+        string message = testName;
+        if (!details.empty()) message += " - " + details;
+        Utility::print_success_message(message);
     } else {
         testsFailed++;
-        cout << "[FAILED]: " << testName;
-        if (!details.empty()) cout << " - " << details;
-        cout << endl;
+        string message = testName;
+        if (!details.empty()) message += " - " + details;
+        Utility::print_error_message(message);
     }
     pauseIfRequested();
 }
@@ -52,13 +52,24 @@ void printTestResult(const string& testName, bool passed, const string& details 
 void printSubTest(const string& action, bool result, const string& expected = "") {
     cout << "  -> " << action << ": ";
     if (result) {
+        Utility::set_console_color(Utility::Colors::GREEN);
         cout << "[SUCCESS]";
+        Utility::reset_console_color();
         if (!expected.empty()) cout << " (Got: " << expected << ")";
     } else {
+        Utility::set_console_color(Utility::Colors::RED);
         cout << "[FAIL]";
+        Utility::reset_console_color();
         if (!expected.empty()) cout << " (Expected: " << expected << ")";
     }
     cout << endl;
+    
+    // Pause after each sub-test if user requested it
+    if (pauseAfterEachTest) {
+        cout << "Press any key to continue to next sub-test...";
+        getch();
+        cout << endl;
+    }
 }
 
 // Unit Tests
@@ -380,10 +391,10 @@ int main() {
     cout << "Success rate: " << (testsRun > 0 ? (testsPassed * 100 / testsRun) : 0) << "%" << endl;
     
     if (testsFailed == 0) {
-        cout << "\n*** ALL UNIT TESTS PASSED! The system components are working correctly. ***" << endl;
+        Utility::print_success_message("ALL UNIT TESTS PASSED! The system components are working correctly.");
         return 0;
     } else {
-        cout << "\n*** Some unit tests failed. Please review the failed components. ***" << endl;
+        Utility::print_error_message("Some unit tests failed. Please review the failed components.");
         return 1;
     }
 }

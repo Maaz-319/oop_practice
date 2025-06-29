@@ -1,2 +1,30 @@
-Maaz Bin Asif`21`03121442598`norhing!`1
-Maaz Bin Asif`19`03121442598`Nothing address`2
+Emma Johnson`18`555-0101`123 Oak Street, Springfield`1001
+Liam Smith`19`555-0102`456 Pine Avenue, Springfield`1002
+Olivia Brown`20`555-0103`789 Maple Drive, Springfield`1003
+Noah Davis`18`555-0104`321 Cedar Lane, Springfield`1004
+Ava Wilson`19`555-0105`654 Birch Road, Springfield`1005
+Isabella Miller`20`555-0106`987 Elm Street, Springfield`1006
+Sophia Garcia`18`555-0107`147 Willow Way, Springfield`1007
+Jackson Rodriguez`19`555-0108`258 Aspen Court, Springfield`1008
+Mia Martinez`20`555-0109`369 Poplar Place, Springfield`1009
+Lucas Anderson`18`555-0110`741 Hickory Hill, Springfield`1010
+Charlotte Taylor`19`555-0111`852 Magnolia Drive, Springfield`1011
+Ethan Thomas`20`555-0112`963 Dogwood Lane, Springfield`1012
+Amelia Jackson`18`555-0113`159 Cherry Street, Springfield`1013
+Alexander White`19`555-0114`267 Sycamore Avenue, Springfield`1014
+Harper Harris`20`555-0115`378 Walnut Road, Springfield`1015
+Benjamin Martin`18`555-0116`489 Chestnut Way, Springfield`1016
+Evelyn Thompson`19`555-0117`591 Redwood Court, Springfield`1017
+Henry Garcia`20`555-0118`612 Sequoia Place, Springfield`1018
+Abigail Lopez`18`555-0119`723 Cypress Hill, Springfield`1019
+William Lee`19`555-0120`834 Fir Drive, Springfield`1020
+Emily Walker`20`555-0121`945 Spruce Lane, Springfield`1021
+James Hall`18`555-0122`156 Pine Street, Springfield`1022
+Elizabeth Allen`19`555-0123`267 Oak Avenue, Springfield`1023
+Michael Young`20`555-0124`378 Maple Road, Springfield`1024
+Sofia Hernandez`18`555-0125`489 Cedar Way, Springfield`1025
+Daniel King`19`555-0126`591 Birch Court, Springfield`1026
+Avery Wright`20`555-0127`612 Elm Place, Springfield`1027
+Matthew Lopez`18`555-0128`723 Willow Hill, Springfield`1028
+Scarlett Hill`19`555-0129`834 Aspen Drive, Springfield`1029
+David Green`20`555-0130`945 Poplar Lane, Springfield`1030

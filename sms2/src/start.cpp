@@ -21,19 +21,12 @@ void add_student()
     Utility::print_header("ADD NEW STUDENT");
     string name, address, phone;
     int age, id;
-    cout << "Student Name: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Student Age: ";
-    cin >> age;
-    cout << "Phone: ";
-    cin.ignore();
-    getline(cin, phone);
-    cout << "Address: ";
-    getline(cin, address);
-    cout << "Student ID: ";
-    cin >> id;
-    
+    name = Utility::take_string_input("Student Name");
+    age = Utility::take_integer_input(5, 100, "Student Age: ");
+    phone = Utility::take_phone_input();
+    address = Utility::take_string_input("Address: ");
+    id = Utility::take_integer_input(1, 10000, "Student ID: ");
+
     Student *student = new Student();
     student->setName(name);
     student->setAge(age);
@@ -57,20 +50,12 @@ void add_teacher()
     Utility::print_header("ADD NEW TEACHER");
     string name, subject, address, phone;
     int age, id;
-    cout << "Teacher Name: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Teacher Age: ";
-    cin >> age;
-    cout << "Phone: ";
-    cin.ignore();
-    getline(cin, phone);
-    cout << "Address: ";
-    getline(cin, address);
-    cout << "Subject: ";
-    getline(cin, subject);
-    cout << "Teacher ID: ";
-    cin >> id;
+    name = Utility::take_string_input("Teacher Name");
+    age = Utility::take_integer_input(5, 100, "Teacher Age");
+    phone = Utility::take_phone_input();
+    address = Utility::take_string_input("Address");
+    subject = Utility::take_string_input("Subject");
+    id = Utility::take_integer_input(1, 10000, "Teacher ID");
     
     Teacher *teacher = new Teacher();
     teacher->setName(name);
@@ -96,21 +81,13 @@ void add_staff()
     Utility::print_header("ADD NEW STAFF");
     string designation, name, address, phone;
     int age, id;
-    cout << "Staff Name: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Staff Age: ";
-    cin >> age;
-    cout << "Phone: ";
-    cin.ignore();
-    getline(cin, phone);
-    cout << "Address: ";
-    getline(cin, address);
-    cout << "Designation: ";
-    getline(cin, designation);
-    cout << "Staff ID: ";
-    cin >> id;
-    
+    name = Utility::take_string_input("Staff Name");
+    age = Utility::take_integer_input(5, 100, "Staff Age");
+    phone = Utility::take_phone_input();
+    address = Utility::take_string_input("Address");
+    designation = Utility::take_string_input("Designation");
+    id = Utility::take_integer_input(1, 10000, "Staff ID");
+
     Staff *staff = new Staff();
     staff->setName(name);
     staff->setAge(age);
@@ -135,8 +112,7 @@ void get_student_data()
 {
     Utility::print_header("GET STUDENT DATA");
     int id;
-    cout << "Enter ID to find: ";
-    cin >> id;
+    id = Utility::take_integer_input(1, 10000, "ID to find");
     if (Student::get_by_id(id, data) == -1)
     {
         Utility::print_error_message("No Student found with ID: " + to_string(id));
@@ -148,8 +124,7 @@ void get_teacher_data()
 {
     Utility::print_header("GET TEACHER DATA");
     int id;
-    cout << "Enter ID to find: ";
-    cin >> id;
+    id = Utility::take_integer_input(1, 10000, "ID to find");
     if (Teacher::get_by_id(id, data) == -1)
     {
         Utility::print_error_message("No Teacher found with ID: " + to_string(id));
@@ -161,8 +136,7 @@ void get_staff_data()
 {
     Utility::print_header("GET STAFF DATA");
     int id;
-    cout << "Enter ID to find: ";
-    cin >> id;
+    id = Utility::take_integer_input(1, 10000, "ID to find");
     if (Staff::get_by_id(id, data) == -1)
     {
         Utility::print_error_message("No Staff found with ID: " + to_string(id));
@@ -176,8 +150,7 @@ void modify_student_data()
     Utility::print_header("MODIFY STUDENT DATA");
 
     int id;
-    cout << "Enter ID to modify: ";
-    cin >> id;
+    id = Utility::take_integer_input(1, 10000, "ID to modify");
     int index = Student::get_by_id(id, data);
     if (index == -1)
     {
@@ -187,16 +160,10 @@ void modify_student_data()
     cout << "================================\n";
     string name, address, phone;
     int age;
-    cout << "Enter Student Name: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Enter Student Age: ";
-    cin >> age;
-    cout << "Enter Phone: ";
-    cin.ignore();
-    getline(cin, phone);
-    cout << "Enter Address: ";
-    getline(cin, address);
+    name = Utility::take_string_input("Student Name");
+    age = Utility::take_integer_input(5, 100, "Student Age");
+    phone = Utility::take_phone_input();
+    address = Utility::take_string_input("Address");
     
     Student *student = new Student();
     student->setName(name);
@@ -215,8 +182,7 @@ void modify_teacher_data()
     Utility::print_header("MODIFY TEACHER DATA");
 
     int id;
-    cout << "Enter ID to modify: ";
-    cin >> id;
+    id = Utility::take_integer_input(1, 10000, "ID to modify");
     int index = Teacher::get_by_id(id, data);
     if (index == -1)
     {
@@ -226,19 +192,12 @@ void modify_teacher_data()
     cout << "================================\n";
     string name, subject, address, phone;
     int age;
-    cout << "Enter Teacher Name: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Enter Teacher Age: ";
-    cin >> age;
-    cout << "Enter Phone: ";
-    cin.ignore();
-    getline(cin, phone);
-    cout << "Enter Address: ";
-    getline(cin, address);
-    cout << "Enter Subject: ";
-    getline(cin, subject);
-    
+    name = Utility::take_string_input("Teacher Name");
+    age = Utility::take_integer_input(5, 100, "Teacher Age");
+    phone = Utility::take_phone_input();
+    address = Utility::take_string_input("Address");
+    subject = Utility::take_string_input("Subject");
+
     Teacher *teacher = new Teacher();
     teacher->setName(name);
     teacher->setAge(age);
@@ -257,8 +216,7 @@ void modify_staff_data()
     Utility::print_header("MODIFY STAFF DATA");
 
     int id;
-    cout << "Enter ID to modify: ";
-    cin >> id;
+    id = Utility::take_integer_input(1, 10000, "ID to modify");
     int index = Staff::get_by_id(id, data);
     if (index == -1)
     {
@@ -268,18 +226,11 @@ void modify_staff_data()
     cout << "================================\n";
     string name, designation, address, phone;
     int age;
-    cout << "Enter Staff Name: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Enter Staff Age: ";
-    cin >> age;
-    cout << "Enter Phone: ";
-    cin.ignore();
-    getline(cin, phone);
-    cout << "Enter Address: ";
-    getline(cin, address);
-    cout << "Enter Designation: ";
-    getline(cin, designation);
+    name = Utility::take_string_input("Staff Name");
+    age = Utility::take_integer_input(5, 100, "Staff Age");
+    phone = Utility::take_phone_input();
+    address = Utility::take_string_input("Address");
+    designation = Utility::take_string_input("Designation");
     
     Staff *staff = new Staff();
     staff->setName(name);
