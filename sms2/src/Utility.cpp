@@ -100,7 +100,7 @@ void Utility::print_menu_box(const string &title, const vector<string> &options)
     // Options
     for (size_t i = 0; i < options.size(); i++)
     {
-        cout << "| " << (i + 1) << ". " << setw(52) << left << options[i] << "  |" << endl;
+        cout << "| [" << (i + 1) << "] " << setw(51) << left << options[i] << "  |" << endl;
     }
 
     // Bottom border

@@ -18,9 +18,11 @@
 using namespace std;
 
 // Helper function to create directory if it doesn't exist
-void ensureDataDirectory() {
+void ensureDataDirectory()
+{
     struct stat info;
-    if (stat("../data", &info) != 0) {
+    if (stat("../data", &info) != 0)
+    {
         // Directory doesn't exist, create it
         mkdir("../data", 0755);
     }
@@ -39,35 +41,38 @@ void save_person(Person **data)
         cerr << "Error opening file for writing." << endl;
         return;
     }
-    for (int i = 0; data[i] != nullptr; i++)
+    for (int i = 0; i < 100; i++)
     {
-        if (data[i]->printType() == "Student")
+        if (data[i] != nullptr)
         {
-            file_stud << data[i]->getName() << "`"
-                      << data[i]->getAge() << "`"
-                      << data[i]->getPhone() << "`"
-                      << data[i]->getAddress() << "`"
-                      << data[i]->getId() << endl;
-        }
-        else if (data[i]->printType() == "Teacher")
-        {
-            Teacher *teacher = static_cast<Teacher *>(data[i]);
-            file_teach << data[i]->getName() << "`"
-                       << data[i]->getAge() << "`"
-                       << data[i]->getPhone() << "`"
-                       << data[i]->getAddress() << "`"
-                       << data[i]->getId() << "`"
-                       << teacher->getSubject() << endl;
-        }
-        else if (data[i]->printType() == "Staff")
-        {
-            Staff *staff = static_cast<Staff *>(data[i]);
-            file_staff << data[i]->getName() << "`"
-                       << data[i]->getAge() << "`"
-                       << data[i]->getPhone() << "`"
-                       << data[i]->getAddress() << "`"
-                       << data[i]->getId() << "`"
-                       << staff->getDesignation() << endl;
+            if (data[i]->printType() == "Student")
+            {
+                file_stud << data[i]->getName() << "`"
+                          << data[i]->getAge() << "`"
+                          << data[i]->getPhone() << "`"
+                          << data[i]->getAddress() << "`"
+                          << data[i]->getId() << endl;
+            }
+            else if (data[i]->printType() == "Teacher")
+            {
+                Teacher *teacher = static_cast<Teacher *>(data[i]);
+                file_teach << data[i]->getName() << "`"
+                           << data[i]->getAge() << "`"
+                           << data[i]->getPhone() << "`"
+                           << data[i]->getAddress() << "`"
+                           << data[i]->getId() << "`"
+                           << teacher->getSubject() << endl;
+            }
+            else if (data[i]->printType() == "Staff")
+            {
+                Staff *staff = static_cast<Staff *>(data[i]);
+                file_staff << data[i]->getName() << "`"
+                           << data[i]->getAge() << "`"
+                           << data[i]->getPhone() << "`"
+                           << data[i]->getAddress() << "`"
+                           << data[i]->getId() << "`"
+                           << staff->getDesignation() << endl;
+            }
         }
     }
     file_stud.close();
@@ -75,14 +80,19 @@ void save_person(Person **data)
     file_staff.close();
 }
 
-Person **read_person()
+Person **read_person(int *ids, int &current_id)
 {
     Person **data = new Person *[100];
     for (int i = 0; i < 100; i++)
     {
         data[i] = nullptr;
     }
-    
+
+    for (int i = 0; i < 100; i++)
+    {
+        ids[i] = 0;
+    }
+
     // Fix: Read from data folder instead of root directory
     ifstream file_stud("../data/students.txt");
     ifstream file_teach("../data/teachers.txt");
@@ -92,7 +102,7 @@ Person **read_person()
     if (!file_stud.is_open() || !file_teach.is_open() || !file_staff.is_open())
     {
         cout << "Data files not found. Starting with empty database." << endl;
-        return data;  // Return empty data array instead of nullptr
+        return data; // Return empty data array instead of nullptr
     }
 
     string line;
@@ -106,30 +116,39 @@ Person **read_person()
         size_t pos2 = line.find('`', pos1 + 1);
         size_t pos3 = line.find('`', pos2 + 1);
         size_t pos4 = line.find('`', pos3 + 1);
-        
-        if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos || pos4 == string::npos) {
+
+        if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos || pos4 == string::npos)
+        {
             continue; // Skip malformed lines
         }
-        
+
         name = line.substr(0, pos1);
         age_str = line.substr(pos1 + 1, pos2 - pos1 - 1);
         phone = line.substr(pos2 + 1, pos3 - pos2 - 1);
         address = line.substr(pos3 + 1, pos4 - pos3 - 1);
         id_str = line.substr(pos4 + 1);
-        
-        try {
+
+        try
+        {
             int age = stoi(age_str);
             int id = stoi(id_str);
-            
-            Student* student = new Student();
+
+            Student *student = new Student();
             student->setName(name);
             student->setAge(age);
             student->setPhone(phone);
             student->setAddress(address);
             student->setStudentId(id);
-            
+            ids[index] = id;
+            // Keep track of maximum ID for proper ID generation
+            if (id > current_id) {
+                current_id = id;
+            }
+
             data[index++] = student;
-        } catch (const exception& e) {
+        }
+        catch (const exception &e)
+        {
             cerr << "Error parsing student data: " << line << endl;
             continue;
         }
@@ -144,33 +163,42 @@ Person **read_person()
         size_t pos3 = line.find('`', pos2 + 1);
         size_t pos4 = line.find('`', pos3 + 1);
         size_t pos5 = line.find('`', pos4 + 1);
-        
-        if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos || 
-            pos4 == string::npos || pos5 == string::npos) {
+
+        if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos ||
+            pos4 == string::npos || pos5 == string::npos)
+        {
             continue; // Skip malformed lines
         }
-        
+
         name = line.substr(0, pos1);
         age_str = line.substr(pos1 + 1, pos2 - pos1 - 1);
         phone = line.substr(pos2 + 1, pos3 - pos2 - 1);
         address = line.substr(pos3 + 1, pos4 - pos3 - 1);
         id_str = line.substr(pos4 + 1, pos5 - pos4 - 1);
         subject = line.substr(pos5 + 1);
-        
-        try {
+
+        try
+        {
             int age = stoi(age_str);
             int id = stoi(id_str);
-            
-            Teacher* teacher = new Teacher();
+
+            Teacher *teacher = new Teacher();
             teacher->setName(name);
             teacher->setAge(age);
             teacher->setPhone(phone);
             teacher->setAddress(address);
             teacher->setTeacherId(id);
             teacher->setSubject(subject);
-            
+
+            ids[index] = id;
+            // Keep track of maximum ID for proper ID generation
+            if (id > current_id) {
+                current_id = id;
+            }
             data[index++] = teacher;
-        } catch (const exception& e) {
+        }
+        catch (const exception &e)
+        {
             cerr << "Error parsing teacher data: " << line << endl;
             continue;
         }
@@ -185,33 +213,42 @@ Person **read_person()
         size_t pos3 = line.find('`', pos2 + 1);
         size_t pos4 = line.find('`', pos3 + 1);
         size_t pos5 = line.find('`', pos4 + 1);
-        
-        if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos || 
-            pos4 == string::npos || pos5 == string::npos) {
+
+        if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos ||
+            pos4 == string::npos || pos5 == string::npos)
+        {
             continue; // Skip malformed lines
         }
-        
+
         name = line.substr(0, pos1);
         age_str = line.substr(pos1 + 1, pos2 - pos1 - 1);
         phone = line.substr(pos2 + 1, pos3 - pos2 - 1);
         address = line.substr(pos3 + 1, pos4 - pos3 - 1);
         id_str = line.substr(pos4 + 1, pos5 - pos4 - 1);
         designation = line.substr(pos5 + 1);
-        
-        try {
+
+        try
+        {
             int age = stoi(age_str);
             int id = stoi(id_str);
-            
-            Staff* staff = new Staff();
+
+            Staff *staff = new Staff();
             staff->setName(name);
             staff->setAge(age);
             staff->setPhone(phone);
             staff->setAddress(address);
             staff->setStaffId(id);
             staff->setDesignation(designation);
-            
+
+            ids[index] = id;
+            // Keep track of maximum ID for proper ID generation
+            if (id > current_id) {
+                current_id = id;
+            }
             data[index++] = staff;
-        } catch (const exception& e) {
+        }
+        catch (const exception &e)
+        {
             cerr << "Error parsing staff data: " << line << endl;
             continue;
         }

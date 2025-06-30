@@ -10,10 +10,42 @@
 #include "Teacher.h"
 #include "Staff.h"
 #include "Database_handler.h"
+#include <limits>
 
 using namespace std;
 
 Person **data = new Person *[100];
+int *ids = new int[100];
+int current_id;
+
+int give_id()
+{
+    // Find the next available ID that's not already in use
+    int next_id = current_id + 1;
+    bool id_exists = true;
+    
+    while (id_exists) {
+        id_exists = false;
+        // Check if this ID already exists in data
+        for (int i = 0; i < 100; i++) {
+            if (data[i] != nullptr && data[i]->getId() == next_id) {
+                id_exists = true;
+                next_id++;
+                break;
+            }
+        }
+    }
+    
+    // Find first available slot in ids array
+    for (int i = 0; i < 100; i++) {
+        if (ids[i] == 0) {
+            ids[i] = next_id;
+            current_id = next_id;
+            break;
+        }
+    }
+    return current_id;
+}
 
 // FUNCTIONS FOR ENTER DATA
 void add_student()
@@ -22,10 +54,10 @@ void add_student()
     string name, address, phone;
     int age, id;
     name = Utility::take_string_input("Student Name");
-    age = Utility::take_integer_input(5, 100, "Student Age: ");
+    age = Utility::take_integer_input(18, 25, "Student Age: ");
     phone = Utility::take_phone_input();
     address = Utility::take_string_input("Address: ");
-    id = Utility::take_integer_input(1, 10000, "Student ID: ");
+    id = give_id();
 
     Student *student = new Student();
     student->setName(name);
@@ -33,9 +65,11 @@ void add_student()
     student->setPhone(phone);
     student->setAddress(address);
     student->setStudentId(id);
-    
+
     if (student->save(data))
     {
+        system("cls");
+        student->printDetails();
         Utility::print_success_message("Student saved successfully at position " + to_string(Person::getCount()));
     }
     else
@@ -51,12 +85,12 @@ void add_teacher()
     string name, subject, address, phone;
     int age, id;
     name = Utility::take_string_input("Teacher Name");
-    age = Utility::take_integer_input(5, 100, "Teacher Age");
+    age = Utility::take_integer_input(18, 25, "Teacher Age");
     phone = Utility::take_phone_input();
     address = Utility::take_string_input("Address");
     subject = Utility::take_string_input("Subject");
-    id = Utility::take_integer_input(1, 10000, "Teacher ID");
-    
+    id = give_id();
+
     Teacher *teacher = new Teacher();
     teacher->setName(name);
     teacher->setAge(age);
@@ -64,9 +98,11 @@ void add_teacher()
     teacher->setAddress(address);
     teacher->setSubject(subject);
     teacher->setTeacherId(id);
-    
+
     if (teacher->save(data))
     {
+        system("cls");
+        teacher->printDetails();
         Utility::print_success_message("Teacher saved successfully at position " + to_string(Person::getCount()));
     }
     else
@@ -82,11 +118,11 @@ void add_staff()
     string designation, name, address, phone;
     int age, id;
     name = Utility::take_string_input("Staff Name");
-    age = Utility::take_integer_input(5, 100, "Staff Age");
+    age = Utility::take_integer_input(18, 25, "Staff Age");
     phone = Utility::take_phone_input();
     address = Utility::take_string_input("Address");
     designation = Utility::take_string_input("Designation");
-    id = Utility::take_integer_input(1, 10000, "Staff ID");
+    id = give_id();
 
     Staff *staff = new Staff();
     staff->setName(name);
@@ -95,9 +131,11 @@ void add_staff()
     staff->setAddress(address);
     staff->setDesignation(designation);
     staff->setStaffId(id);
-    
+
     if (staff->save(data))
     {
+        system("cls");
+        staff->printDetails();
         Utility::print_success_message("Staff saved successfully at position " + to_string(Person::getCount()));
     }
     else
@@ -164,14 +202,16 @@ void modify_student_data()
     age = Utility::take_integer_input(5, 100, "Student Age");
     phone = Utility::take_phone_input();
     address = Utility::take_string_input("Address");
-    
+
     Student *student = new Student();
     student->setName(name);
     student->setAge(age);
     student->setPhone(phone);
     student->setAddress(address);
     student->setStudentId(id);
-    
+
+    // Delete old object to prevent memory leak
+    delete data[index];
     student->save(data, index);
     Utility::print_success_message("Student data modified successfully!");
     getch();
@@ -205,7 +245,9 @@ void modify_teacher_data()
     teacher->setAddress(address);
     teacher->setSubject(subject);
     teacher->setTeacherId(id);
-    
+
+    // Delete old object to prevent memory leak
+    delete data[index];
     teacher->save(data, index);
     Utility::print_success_message("Teacher data modified successfully!");
     getch();
@@ -220,7 +262,7 @@ void modify_staff_data()
     int index = Staff::get_by_id(id, data);
     if (index == -1)
     {
-        cout << "No Teacher found with ID: " << id << endl;
+        Utility::print_error_message("No Staff found with ID: " + to_string(id));
         return;
     }
     cout << "================================\n";
@@ -231,7 +273,7 @@ void modify_staff_data()
     phone = Utility::take_phone_input();
     address = Utility::take_string_input("Address");
     designation = Utility::take_string_input("Designation");
-    
+
     Staff *staff = new Staff();
     staff->setName(name);
     staff->setAge(age);
@@ -239,8 +281,11 @@ void modify_staff_data()
     staff->setAddress(address);
     staff->setDesignation(designation);
     staff->setStaffId(id);
-    
+
+    // Delete old object to prevent memory leak
+    delete data[index];
     staff->save(data, index);
+    Utility::print_success_message("Staff data modified successfully!");
     getch();
 }
 
@@ -379,6 +424,79 @@ void display_system_stats()
     getch();
 }
 
+void delete_data()
+{
+    int type, id;
+    string prompt;
+    vector<string> options = {
+        "Delete Student",
+        "Delete Teacher",
+        "Delete Staff"};
+
+    Utility::print_menu_box("DELETE DATA", options);
+    type = Utility::take_integer_input(1, 3, "Choice");
+
+    if (type == 1)
+    {
+        prompt = "Student";
+    }
+    else if (type == 2)
+    {
+        prompt = "Teacher";
+    }
+    else if (type == 3)
+    {
+        prompt = "Staff";
+    }
+    else
+    {
+        Utility::print_error_message("Unable to Delete Data");
+        return;
+    }
+
+    id = Utility::take_integer_input(1, 10000, prompt + " ID");
+    bool found = false;
+
+    for (int i = 0; i < 100; i++)
+    {
+        if (data[i] != nullptr && data[i]->getId() == id && data[i]->printType() == prompt)
+        {
+            found = true;
+            char choice = 'a';
+            Utility::print_success_message("FOUND " + to_string(id));
+            getch();
+            data[i]->printDetails();
+
+            cout << "\nConfirm Deletion (y/n): ";
+            while (!(cin >> choice) || (choice != 'y' && choice != 'n' && choice != 'N' && choice != 'Y'))
+            {
+                cin.clear(); // Clear error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Confirm Deletion (y/n): ";
+            }
+
+            if (choice == 'y' || choice == 'Y')
+            {
+                delete data[i];
+                data[i] = nullptr;
+                Utility::print_success_message("Data Deleted Successfully!");
+                getch();
+            }
+            else
+            {
+                Utility::print_success_message("Deletion Cancelled by User!");
+                getch();
+            }
+            break;
+        }
+    }
+    if (!found)
+    {
+        Utility::print_error_message("No " + prompt + " Found with ID: " + to_string(id));
+        getch();
+    }
+}
+
 // MAIN MENU
 void main_menu()
 {
@@ -389,11 +507,12 @@ void main_menu()
             "Enter Data",
             "View Data",
             "Modify Data",
+            "Delete Data",
             "System Statistics",
             "Exit Program"};
 
         Utility::print_menu_box("SCHOOL MANAGEMENT SYSTEM", options);
-        cout << "Enter your choice (1-5): ";
+        cout << "Enter your choice (1-6): ";
         cin >> choice;
 
         switch (choice)
@@ -408,9 +527,12 @@ void main_menu()
             modify_data_menu();
             break;
         case '4':
-            display_system_stats();
+            delete_data();
             break;
         case '5':
+            display_system_stats();
+            break;
+        case '6':
             Utility::print_header("PROGRAM EXIT");
             cout << "Thank you for using School Management System!" << endl;
             Utility::print_success_message("Program terminated successfully!");
@@ -418,11 +540,11 @@ void main_menu()
             getch();
             break;
         default:
-            Utility::print_error_message("Invalid choice! Please select 1-5.");
+            Utility::print_error_message("Invalid choice! Please select 1-6.");
             cout << "\nPress any key to continue...";
             getch();
         }
-    } while (choice != '5');
+    } while (choice != '6');
 }
 
 int main()
@@ -430,7 +552,7 @@ int main()
     // getch();
     system("cls");
 
-    data = read_person();
+    data = read_person(ids, current_id);
     main_menu();
 
     for (int i = 0; i < 100 && data[i] != nullptr; i++)

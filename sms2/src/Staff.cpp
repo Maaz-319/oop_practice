@@ -5,19 +5,21 @@ using namespace std;
 
 int Staff::count = 0;
 
-Staff::Staff()
+Staff::Staff() : Person()
 {
     count++;
-    type = "Staff";
+    setType("Staff");
+    staff_id = 0;
+    designation = "";
 }
 
 void Staff::printDetails()
 {
     Utility::print_header("Staff Details");
-    cout << "Name: " << name << "\n"
-         << "Age: " << age << "\n"
-         << "Phone: " << phone << "\n"
-         << "Address: " << address << "\n"
+    cout << "Name: " << getName() << "\n"
+         << "Age: " << getAge() << "\n"
+         << "Phone: " << getPhone() << "\n"
+         << "Address: " << getAddress() << "\n"
          << "Designation: " << designation << "\n"
          << "Staff ID: " << staff_id << endl;
 }
@@ -57,7 +59,7 @@ bool Staff::save(Person **data, int index)
     }
 }
 
-string Staff::printType() { return type; }
+string Staff::printType() { return Person::printType(); }
 int Staff::getCount() { return count; }
 int Staff::getId() { return staff_id; }
 string Staff::getDesignation() { return designation; }

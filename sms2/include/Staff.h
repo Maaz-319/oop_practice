@@ -7,7 +7,6 @@ class Staff : public Person
 private:
     string designation;
     int staff_id;
-    string type;
     static int count;
 
 public:
