@@ -16,131 +16,95 @@ using namespace std;
 
 Person **data = new Person *[100];
 int *ids = new int[100];
-int current_id;
+int current_id = 0;
 
 int give_id()
 {
+
+    if (current_id <= 0)
+    {
+        current_id = 1000;
+    }
+
     // Find the next available ID that's not already in use
     int next_id = current_id + 1;
     bool id_exists = true;
-    
-    while (id_exists) {
+
+    while (id_exists)
+    {
         id_exists = false;
         // Check if this ID already exists in data
-        for (int i = 0; i < 100; i++) {
-            if (data[i] != nullptr && data[i]->getId() == next_id) {
+        for (int i = 0; i < 100; i++)
+        {
+            if (data[i] != nullptr && data[i]->getId() == next_id)
+            {
                 id_exists = true;
                 next_id++;
                 break;
             }
         }
     }
-    
+
     // Find first available slot in ids array
-    for (int i = 0; i < 100; i++) {
-        if (ids[i] == 0) {
+    for (int i = 0; i < 100; i++)
+    {
+        if (ids[i] == 0)
+        {
             ids[i] = next_id;
             current_id = next_id;
             break;
         }
     }
+    current_id = next_id;
     return current_id;
 }
 
-// FUNCTIONS FOR ENTER DATA
-void add_student()
+void add_person()
 {
-    Utility::print_header("ADD NEW STUDENT");
-    string name, address, phone;
-    int age, id;
-    name = Utility::take_string_input("Student Name");
-    age = Utility::take_integer_input(18, 25, "Student Age: ");
-    phone = Utility::take_phone_input();
-    address = Utility::take_string_input("Address: ");
-    id = give_id();
-
-    Student *student = new Student();
-    student->setName(name);
-    student->setAge(age);
-    student->setPhone(phone);
-    student->setAddress(address);
-    student->setStudentId(id);
-
-    if (student->save(data))
-    {
-        system("cls");
-        student->printDetails();
-        Utility::print_success_message("Student saved successfully at position " + to_string(Person::getCount()));
-    }
-    else
+    if (Person::getCount() >= 100)
     {
         Utility::print_error_message("Data is full, cannot save more Persons.");
+        return;
     }
-    getch();
-}
 
-void add_teacher()
-{
-    Utility::print_header("ADD NEW TEACHER");
-    string name, subject, address, phone;
-    int age, id;
-    name = Utility::take_string_input("Teacher Name");
-    age = Utility::take_integer_input(18, 25, "Teacher Age");
-    phone = Utility::take_phone_input();
-    address = Utility::take_string_input("Address");
-    subject = Utility::take_string_input("Subject");
+    Person *person;
+    int choice, id, age;
+    string name, address, phone, subject, designation;
+
+    Utility::print_header("ADD NEW PERSON");
+    vector<string> options = {
+        "Add Student",
+        "Add Teacher",
+        "Add Staff",
+        "Back to Main Menu"};
+    Utility::print_menu_box("ADD PERSON", options);
+
+    choice = Utility::take_integer_input(1, 4, "Select an option");
+
+    if (choice == 4)
+        return;
     id = give_id();
 
-    Teacher *teacher = new Teacher();
-    teacher->setName(name);
-    teacher->setAge(age);
-    teacher->setPhone(phone);
-    teacher->setAddress(address);
-    teacher->setSubject(subject);
-    teacher->setTeacherId(id);
-
-    if (teacher->save(data))
+    if (choice == 1)
     {
-        system("cls");
-        teacher->printDetails();
-        Utility::print_success_message("Teacher saved successfully at position " + to_string(Person::getCount()));
+        person = new Student();
     }
-    else
+    else if (choice == 2)
     {
-        Utility::print_error_message("Data is full, cannot save more Persons.");
+        person = new Teacher();
     }
-    getch();
-}
-
-void add_staff()
-{
-    Utility::print_header("ADD NEW STAFF");
-    string designation, name, address, phone;
-    int age, id;
-    name = Utility::take_string_input("Staff Name");
-    age = Utility::take_integer_input(18, 25, "Staff Age");
-    phone = Utility::take_phone_input();
-    address = Utility::take_string_input("Address");
-    designation = Utility::take_string_input("Designation");
-    id = give_id();
-
-    Staff *staff = new Staff();
-    staff->setName(name);
-    staff->setAge(age);
-    staff->setPhone(phone);
-    staff->setAddress(address);
-    staff->setDesignation(designation);
-    staff->setStaffId(id);
-
-    if (staff->save(data))
+    else if (choice == 3)
     {
-        system("cls");
-        staff->printDetails();
-        Utility::print_success_message("Staff saved successfully at position " + to_string(Person::getCount()));
+        person = new Staff();
     }
-    else
+
+    person->get_common_inputs();
+    person->setId(id);
+    person->get_specific_inputs();
+
+    if (person->save(data))
     {
-        Utility::print_error_message("Data is full, cannot save more Persons.");
+        Utility::print_success_message(person->printType() + " saved successfully.");
     }
     getch();
 }
@@ -208,7 +172,7 @@ void modify_student_data()
     student->setAge(age);
     student->setPhone(phone);
     student->setAddress(address);
-    student->setStudentId(id);
+    student->setId(id);
 
     // Delete old object to prevent memory leak
     delete data[index];
@@ -244,7 +208,7 @@ void modify_teacher_data()
     teacher->setPhone(phone);
     teacher->setAddress(address);
     teacher->setSubject(subject);
-    teacher->setTeacherId(id);
+    teacher->setId(id);
 
     // Delete old object to prevent memory leak
     delete data[index];
@@ -280,51 +244,13 @@ void modify_staff_data()
     staff->setPhone(phone);
     staff->setAddress(address);
     staff->setDesignation(designation);
-    staff->setStaffId(id);
+    staff->setId(id);
 
     // Delete old object to prevent memory leak
     delete data[index];
     staff->save(data, index);
     Utility::print_success_message("Staff data modified successfully!");
     getch();
-}
-
-// SUB-MENU FOR ENTER DATA
-void enter_data_menu()
-{
-    char choice;
-    do
-    {
-        vector<string> options = {
-            "Add Student",
-            "Add Teacher",
-            "Add Staff",
-            "Back to Main Menu"};
-
-        Utility::print_menu_box("ENTER DATA MENU", options);
-        cout << "Enter your choice (1-4): ";
-        cin >> choice;
-
-        switch (choice)
-        {
-        case '1':
-            add_student();
-            break;
-        case '2':
-            add_teacher();
-            break;
-        case '3':
-            add_staff();
-            break;
-        case '4':
-            Utility::print_info_box("Returning to main menu...");
-            break;
-        default:
-            Utility::print_error_message("Invalid choice! Please select 1-4.");
-            cout << "\nPress any key to continue...";
-            getch();
-        }
-    } while (choice != '4');
 }
 
 // SUB-MENU FOR GET DATA
@@ -518,7 +444,8 @@ void main_menu()
         switch (choice)
         {
         case '1':
-            enter_data_menu();
+            // enter_data_menu();
+            add_person();
             break;
         case '2':
             get_data_menu();

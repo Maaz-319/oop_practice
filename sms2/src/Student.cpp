@@ -10,7 +10,6 @@ Student::Student() : Person()
 {
     count++;
     setType("Student");
-    stud_id = 0;
 }
 
 void Student::printDetails()
@@ -20,17 +19,7 @@ void Student::printDetails()
          << "Age: " << getAge() << "\n"
          << "Phone: " << getPhone() << "\n"
          << "Address: " << getAddress() << "\n"
-         << "Student ID: " << stud_id << endl;
-}
-
-void Student::setStudentId(int id)
-{
-    stud_id = id;
-}
-
-int Student::getStudentId() const
-{
-    return stud_id;
+         << "Student ID: " << getId() << endl;
 }
 
 int Student::get_by_id(int id, Person **data)
@@ -68,7 +57,11 @@ bool Student::save(Person **data, int index)
     }
 }
 
-string Student::printType() { return Person::printType(); }
 int Student::getCount() { return count; }
-int Student::getId() { return stud_id; }
+void Student::get_specific_inputs() {
+    // Students don't need additional specific inputs beyond common ones
+    // The ID is already set in add_person()
+}
+
+
 Student::~Student() {}

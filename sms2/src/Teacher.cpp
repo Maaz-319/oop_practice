@@ -10,7 +10,6 @@ Teacher::Teacher() : Person()
     count++;
     setType("Teacher");
     subject = "";
-    teacher_id = 0;
 }
 
 void Teacher::printDetails()
@@ -21,23 +20,15 @@ void Teacher::printDetails()
          << "Phone: " << getPhone() << "\n"
          << "Address: " << getAddress() << "\n"
          << "Subject: " << subject << "\n"
-         << "Teacher ID: " << teacher_id << endl;
+         << "Teacher ID: " << getId() << endl;
 }
 
-void Teacher::setTeacherId(int id)
-{
-    teacher_id = id;
-}
 
-void Teacher::setSubject(const string& subject)
+void Teacher::setSubject(const string &subject)
 {
     this->subject = subject;
 }
 
-int Teacher::getTeacherId() const
-{
-    return teacher_id;
-}
 
 string Teacher::getSubject() const
 {
@@ -79,7 +70,10 @@ bool Teacher::save(Person **data, int index)
     }
 }
 
-string Teacher::printType() { return Person::printType(); }
+void Teacher::get_specific_inputs()
+{
+    this->setSubject(Utility::take_string_input("Subject"));
+}
+
 int Teacher::getCount() { return count; }
-int Teacher::getId() { return teacher_id; }
 Teacher::~Teacher() {}

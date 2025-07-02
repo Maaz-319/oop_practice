@@ -9,7 +9,6 @@ Staff::Staff() : Person()
 {
     count++;
     setType("Staff");
-    staff_id = 0;
     designation = "";
 }
 
@@ -21,7 +20,7 @@ void Staff::printDetails()
          << "Phone: " << getPhone() << "\n"
          << "Address: " << getAddress() << "\n"
          << "Designation: " << designation << "\n"
-         << "Staff ID: " << staff_id << endl;
+         << "Staff ID: " << getId() << endl;
 }
 
 int Staff::get_by_id(int id, Person **data)
@@ -59,24 +58,18 @@ bool Staff::save(Person **data, int index)
     }
 }
 
-string Staff::printType() { return Person::printType(); }
-int Staff::getCount() { return count; }
-int Staff::getId() { return staff_id; }
-string Staff::getDesignation() { return designation; }
-
-void Staff::setStaffId(int staff_id) 
-{ 
-    this->staff_id = staff_id; 
+void Staff::get_specific_inputs()
+{
+    this->setDesignation(Utility::take_string_input("Designation"));
 }
+
+int Staff::getCount() { return count; }
+string Staff::getDesignation() { return designation; }
 
 void Staff::setDesignation(const string& designation) 
 { 
     this->designation = designation; 
 }
 
-int Staff::getStaffId() const
-{
-    return staff_id;
-}
 
 Staff::~Staff() {}

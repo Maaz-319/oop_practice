@@ -138,7 +138,7 @@ Person **read_person(int *ids, int &current_id)
             student->setAge(age);
             student->setPhone(phone);
             student->setAddress(address);
-            student->setStudentId(id);
+            student->setId(id);
             ids[index] = id;
             // Keep track of maximum ID for proper ID generation
             if (id > current_id) {
@@ -187,7 +187,7 @@ Person **read_person(int *ids, int &current_id)
             teacher->setAge(age);
             teacher->setPhone(phone);
             teacher->setAddress(address);
-            teacher->setTeacherId(id);
+            teacher->setId(id);
             teacher->setSubject(subject);
 
             ids[index] = id;
@@ -237,7 +237,7 @@ Person **read_person(int *ids, int &current_id)
             staff->setAge(age);
             staff->setPhone(phone);
             staff->setAddress(address);
-            staff->setStaffId(id);
+            staff->setId(id);
             staff->setDesignation(designation);
 
             ids[index] = id;
