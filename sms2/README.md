@@ -14,6 +14,7 @@ A comprehensive C++ console application for managing student, teacher, and staff
 
 ### 💬 Get in Touch
 
+**📧 Email**: maazbinaasif@gmail.com
 **💼 Portfolio**: [portfolio.maaz.me](https://portfolio.maaz.me)  
 **🌐 Website**: [maaz.me](https://maaz.me)
 </div>
@@ -106,7 +107,7 @@ RunTests.bat
 
 ### Main Menu Options
 
-The system provides five main functions accessible through a menu-driven interface:
+The system provides six main functions accessible through a menu-driven interface:
 
 ```
 SCHOOL MANAGEMENT SYSTEM
@@ -114,88 +115,104 @@ SCHOOL MANAGEMENT SYSTEM
 1. Enter Data
 2. View Data  
 3. Modify Data
-4. System Statistics
-5. Exit Program
+4. Delete Data
+5. System Statistics
+6. Exit Program
 ```
 
-### 1. Enter Data
-Add new records to the system:
+### 1. Enter Data (Unified Architecture)
+Add new records using the unified ID system:
 
 **Add Student**
 - Student Name (Full name)
-- Student Age (Numeric)
-- Phone Number (Text format)
+- Student Age (18-50)
+- Phone Number (Validated format)
 - Address (Complete address)
-- Student ID (Unique identifier)
+- **Unified ID** (Auto-generated, starting from 1000)
 
 **Add Teacher**  
 - Teacher Name (Full name)
-- Teacher Age (Numeric)
-- Phone Number (Text format)
+- Teacher Age (18-50)
+- Phone Number (Validated format)
 - Address (Complete address)
 - Subject (Teaching subject)
-- Teacher ID (Unique identifier)
+- **Unified ID** (Auto-generated, starting from 1000)
 
 **Add Staff**
 - Staff Name (Full name)
-- Staff Age (Numeric)  
-- Phone Number (Text format)
+- Staff Age (18-50)
+- Phone Number (Validated format)
 - Address (Complete address)
 - Designation (Job title)
-- Staff ID (Unique identifier)
+- **Unified ID** (Auto-generated, starting from 1000)
 
-### 2. View Data
-Search and display existing records:
+### 2. View Data (Unified Search)
+Search and display existing records using the unified ID system:
 
-- **Student by ID**: Find and display student information
-- **Teacher by ID**: Find and display teacher information  
-- **Staff by ID**: Find and display staff information
+- **Find Person by ID**: Enter any ID to find any person type (unified search)
+- **Type Identification**: System automatically identifies and displays the correct person type
+- **Detailed Display**: Shows all relevant information including type-specific attributes
 
-### 3. Modify Data
-Update existing records:
+### 3. Modify Data (Unified System)
+Update existing records using unified ID system:
 
-- **Modify Student**: Update student information by ID
-- **Modify Teacher**: Update teacher information by ID
-- **Modify Staff**: Update staff information by ID
+- **Modify by ID**: Enter any person's ID to modify their information
+- **Type Detection**: System automatically detects person type and shows appropriate fields
+- **Common Fields**: Update name, age, phone, address for any person type
+- **Specific Fields**: Update subject (Teachers) or designation (Staff) as applicable
 
-### 4. System Statistics
+### 4. Delete Data (Unified System)
+Remove records with confirmation:
+
+- **Delete by ID**: Enter any person's ID to delete their record
+- **Confirmation**: System shows record details and asks for confirmation
+- **Safe Deletion**: Proper memory cleanup and count management
+- **Immediate Feedback**: Success/failure notification
+
+### 5. System Statistics (Enhanced)
 View comprehensive system information:
 
-- **Database Status**: Current capacity and usage
+- **Database Status**: Current capacity and usage (X/100 records)
 - **Available Slots**: Remaining storage capacity
-- **Memory Usage**: System resource utilization
-- **Record Distribution**: Count by entity type
+- **Memory Usage**: System resource utilization percentage
+- **Record Distribution**: 
+  - Students: X records
+  - Teachers: Y records  
+  - Staff: Z records
+  - Total People: X+Y+Z records
 
-### 5. Exit Program
-Safely exit the application with automatic data saving.
+### 6. Exit Program
+Safely exit the application with automatic data saving to files.
 
-## 🗂️ Data Storage
+## 🗂️ Data Storage (Unified Architecture)
 
-The system uses file-based storage with separate files for each entity type. The data directory is located in the project root, while executables are in the `build/` folder:
+The system uses file-based storage with unified architecture support. The data directory is located in the project root, while executables are in the `build/` folder:
 
 ```
 project-root/
-├── data/                    # Data storage (project root)
-│   ├── students.txt         # Student records
-│   ├── teachers.txt         # Teacher records
-│   └── staff.txt            # Staff records
+├── data/                    # Data storage (project root)  
+│   ├── students.txt         # Student records (unified format)
+│   ├── teachers.txt         # Teacher records (unified format)
+│   └── staff.txt            # Staff records (unified format)
 └── build/                   # Compiled executables
     ├── sms.exe              # Main application
     ├── UnitTest.exe         # Unit tests
     └── IntegrationTest.exe  # Integration tests
 ```
 
-### Data Persistence Features
-- **Automatic Loading**: Data loaded on program start from `../data/` (relative to executable)
-- **Automatic Saving**: Data saved on program exit to `../data/` directory
+### Data Persistence Features (Enhanced)
+- **Unified Loading**: All person types loaded with consistent ID system from `../data/`
+- **Unified Saving**: All person types saved with unified architecture to `../data/`
+- **ID Persistence**: Current ID counter maintained across sessions
 - **Directory Auto-Creation**: Data directory created automatically if missing
-- **Data Integrity**: File validation and error handling
-- **Capacity Management**: Maximum 100 total records
+- **Type-Safe Storage**: Each type maintains separate file while using unified ID system
+- **Capacity Management**: Maximum 100 total records across all types
 - **Cross-Platform Paths**: Works on Windows, Linux, and macOS
 
 ### Important Notes
 - **Run from build/ directory**: `cd build && ./sms.exe` (recommended)
-- **Run from project root**: `./build/sms.exe` (also works)
+- **Unified ID System**: All IDs start from 1000 and are unique across all person types
+- **Automatic ID Management**: System handles ID generation and uniqueness
 - **Data files**: Always stored in project-root/data/ regardless of execution location
 
 ## 🧪 Testing
@@ -315,7 +332,7 @@ For technical support, bug reports, or feature requests:
 - Examine the source code for implementation details
 
 **Version**: 2.0.0  
-**Last Updated**: June 2025  
+**Last Updated**: July 2025  
 **Compatibility**: C++11 and later
 
 ---

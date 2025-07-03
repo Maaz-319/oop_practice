@@ -143,37 +143,37 @@ bool testCompletePersonWorkflow() {
     Teacher* teacher = new Teacher();
     Staff* staff = new Staff();
     
-    printStep(2, "Setting up Student data");
+    printStep(2, "Setting up Student data with unified ID system");
     student->setName("Alice Johnson");
     student->setAge(19);
     student->setPhone("555-0101");
     student->setAddress("123 Dormitory Lane");
-    student->setStudentId(2024001);
+    student->setId(2024001);  // Unified ID system
     printSubAction("Student name", student->getName());
-    printSubAction("Student ID", to_string(student->getStudentId()));
+    printSubAction("Student ID", to_string(student->getId()));
     printSubAction("Student type", student->printType());
     
-    printStep(3, "Setting up Teacher data");
+    printStep(3, "Setting up Teacher data with unified ID system");
     teacher->setName("Dr. Robert Smith");
     teacher->setAge(42);
     teacher->setPhone("555-0201");
     teacher->setAddress("456 Faculty Street");
-    teacher->setTeacherId(1001);
+    teacher->setId(1001);  // Unified ID system
     teacher->setSubject("Computer Science");
     printSubAction("Teacher name", teacher->getName());
-    printSubAction("Teacher ID", to_string(teacher->getTeacherId()));
+    printSubAction("Teacher ID", to_string(teacher->getId()));
     printSubAction("Teacher subject", teacher->getSubject());
     printSubAction("Teacher type", teacher->printType());
     
-    printStep(4, "Setting up Staff data");
+    printStep(4, "Setting up Staff data with unified ID system");
     staff->setName("Mary Williams");
     staff->setAge(38);
     staff->setPhone("555-0301");
     staff->setAddress("789 Admin Building");
-    staff->setStaffId(3001);
+    staff->setId(3001);  // Unified ID system
     staff->setDesignation("Registrar");
     printSubAction("Staff name", staff->getName());
-    printSubAction("Staff ID", to_string(staff->getStaffId()));
+    printSubAction("Staff ID", to_string(staff->getId()));
     printSubAction("Staff designation", staff->getDesignation());
     printSubAction("Staff type", staff->printType());
     
@@ -299,20 +299,24 @@ bool testDataFileSystemIntegration() {
     printStep(3, "Testing database handler integration");
     cout << "\nTesting database functionality:" << endl;
     try {
-        // Create test data
-        Person** testData = new Person*[10];
-        for (int i = 0; i < 10; i++) testData[i] = nullptr;
+        // Create test data - Use full 100-element array for compatibility with save_person
+        Person** testData = new Person*[100];
+        for (int i = 0; i < 100; i++) testData[i] = nullptr;
         
-        // Add test persons
+        // Add test persons with unified ID system
         testData[0] = new Student();
         testData[0]->setName("Test Student");
         testData[0]->setAge(20);
-        testData[0]->setStudentId(9999);
+        testData[0]->setPhone("555-0123");
+        testData[0]->setAddress("123 Test St");
+        testData[0]->setId(9999);  // Unified ID system
         
         testData[1] = new Teacher();
         testData[1]->setName("Test Teacher");
         testData[1]->setAge(35);
-        testData[1]->setTeacherId(8888);
+        testData[1]->setPhone("555-0124");
+        testData[1]->setAddress("124 Test St");
+        testData[1]->setId(8888);  // Unified ID system
         testData[1]->setSubject("Test Subject");
         
         printSubAction("Test data prepared", "SUCCESS");
@@ -322,9 +326,11 @@ bool testDataFileSystemIntegration() {
         save_person(testData);
         printSubAction("Save operation", "COMPLETED");
         
-        // Test read operation
+        // Test read operation with updated database handler signature
         printSubAction("Attempting to read data", "EXECUTING");
-        Person** loadedData = read_person();
+        int ids[100] = {0};
+        int current_id = 0;
+        Person** loadedData = read_person(ids, current_id);
         printSubAction("Read operation", loadedData ? "COMPLETED" : "RETURNED NULL");
         
         // Cleanup
@@ -333,7 +339,7 @@ bool testDataFileSystemIntegration() {
         delete[] testData;
         
         if (loadedData) {
-            for (int i = 0; i < 10 && loadedData[i] != nullptr; i++) {
+            for (int i = 0; i < 100 && loadedData[i] != nullptr; i++) {
                 delete loadedData[i];
             }
             delete[] loadedData;
@@ -386,23 +392,23 @@ bool testCompleteSystemSimulation() {
     printStep(5, "Simulating student management workflow");
     cout << "\nUser selects: Student Management" << endl;
     
-    // Create new student simulation
+    // Create new student simulation with unified ID system
     Student newStudent;
     printSubAction("Creating new student record", "INITIALIZING");
     newStudent.setName("Emma Thompson");
     newStudent.setAge(18);
     newStudent.setPhone("555-1234");
     newStudent.setAddress("456 College Ave");
-    newStudent.setStudentId(2024100);
+    newStudent.setId(2024100);  // Unified ID system
     
     printSubAction("Student data entered", "COMPLETE");
     cout << "New student created:" << endl;
     newStudent.printDetails();
     
-    printStep(6, "Simulating data validation and save");
+    printStep(6, "Simulating data validation and save with unified ID system");
     bool validData = (!newStudent.getName().empty() && 
                      newStudent.getAge() > 0 && 
-                     newStudent.getStudentId() > 0);
+                     newStudent.getId() > 0);  // Using unified ID system
     printSubAction("Data validation", validData ? "PASSED" : "FAILED");
     
     if (validData) {
@@ -439,7 +445,7 @@ bool testStressAndPerformance() {
         Student* s = new Student();
         s->setName("Student " + to_string(i));
         s->setAge(18 + (i % 10));
-        s->setStudentId(2024000 + i);
+        s->setId(2024000 + i);  // Unified ID system
         testObjects.push_back(s);
     }
     printSubAction("Student objects created", "SUCCESS");

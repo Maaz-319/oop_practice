@@ -35,14 +35,13 @@ public:
     virtual void setId(int id);
 
     // Setters for derived class attributes
-    // virtual void setStudentId(int id) {}  // For Student
-    // virtual void setTeacherId(int id) {}  // For Teacher
     virtual void setSubject(const string& subject) {}  // For Teacher
-    // virtual void setStaffId(int id) {}  // For Staff
     virtual void setDesignation(const string& designation) {}  // For Staff
 
     virtual void get_common_inputs();
     virtual void get_specific_inputs() = 0;  // Pure virtual function for derived classes to implement
+    static int get_person_by_id(int id, Person **data);
+    virtual int get_by_id(int id, Person **data) = 0;
 
     virtual bool save(Person** data, int index = -1);
 

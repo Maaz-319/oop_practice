@@ -76,4 +76,6 @@ void Teacher::get_specific_inputs()
 }
 
 int Teacher::getCount() { return count; }
-Teacher::~Teacher() {}
+Teacher::~Teacher() {
+    this->count--;
+}

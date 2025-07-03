@@ -64,4 +64,6 @@ void Student::get_specific_inputs() {
 }
 
 
-Student::~Student() {}
+Student::~Student() {
+    this->count--;
+}

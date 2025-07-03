@@ -1,6 +1,9 @@
 #include "Person.h"
 #include "Utility.h"
 
+#include <iostream>
+using namespace std;
+
 int Person::count = 0;
 
 Person::Person() : name(""), age(0), type("Person"), phone("0"), address(""), id(-1) { count++; }
@@ -43,6 +46,20 @@ bool Person::save(Person **data, int index)
     }
 }
 
+int Person::get_person_by_id(int id, Person **data)
+{
+    for (int i = 0; i < 100; i++)
+    {
+        if (data[i] != nullptr && data[i]->getId() == id)
+        {
+            cout << data[i]->printType() << endl;
+            data[i]->printDetails();
+            return i;
+        }
+    }
+    return -1;
+}
+
 void Person::get_common_inputs()
 {
     this->setName(Utility::take_string_input(this->printType()+" Name"));
@@ -51,4 +68,6 @@ void Person::get_common_inputs()
     this->setAddress(Utility::take_string_input(this->printType()+" Address"));
 }
 
-Person::~Person() {}
+Person::~Person() {
+    this->count--;
+}

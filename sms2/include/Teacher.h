@@ -9,7 +9,7 @@ private:
 public:
     Teacher();  // Default constructor
     void printDetails() override;
-    static int get_by_id(int id, Person **data);
+    int get_by_id(int id, Person **data) override;
     bool save(Person **data, int index = -1);
     static int getCount();
     

@@ -12,28 +12,37 @@
 
 ## Introduction
 
-The School Management System is a C++ console application designed to demonstrate object-oriented programming principles while providing a functional system for managing educational institution data. The system showcases inheritance, polymorphism, and professional software development practices.
+The School Management System is a C++ console application designed to demonstrate advanced object-oriented programming principles while providing a functional system for managing educational institution data. The system features a **unified Person-based architecture** with polymorphic operations and centralized ID management.
 
 ### Key Features
-- Object-oriented design with inheritance hierarchy
-- Polymorphic behavior through virtual functions
-- Static object counting for each class type
-- File-based data persistence
-- Comprehensive testing framework
-- Professional console user interface
+- **Unified Architecture**: All person types share a common ID system and interface
+- **Polymorphic Operations**: Type-agnostic handling through base class pointers
+- **Static Object Counting**: Real-time tracking of objects with proper memory management
+- **Centralized ID Management**: Unique ID generation across all person types
+- **File-based Data Persistence**: Automatic save/load with cross-platform compatibility
+- **Comprehensive Testing Framework**: Unit and integration tests for quality assurance
+- **Professional Console Interface**: Colored output, formatted menus, input validation
 
-### System Architecture
-- **Person (Base Class)**: Abstract base for all person types
-- **Student Class**: Inherits from Person, manages student records
-- **Teacher Class**: Inherits from Person, manages teacher information
-- **Staff Class**: Inherits from Person, manages administrative staff
-- **Utility Class**: Provides formatting and display functions
-- **Database Handler**: Manages file I/O operations
+### System Architecture - Unified Design
+- **Person (Abstract Base)**: Unified base class with common ID system (`Person::id`)
+- **Student Class**: Inherits unified architecture, no additional specific attributes
+- **Teacher Class**: Adds subject management while using unified ID system
+- **Staff Class**: Adds designation management while using unified ID system
+- **Utility Class**: Enhanced formatting, input validation, and color management
+- **Database Handler**: File I/O with unified architecture support
+- **Global Functions**: Centralized ID generation and person management
+
+### Technical Highlights
+- **Unified ID System**: All persons use `Person::id` starting from 1000
+- **Polymorphic Input**: `get_common_inputs()` and `get_specific_inputs()` methods
+- **Type-safe Operations**: Virtual functions ensure correct behavior per type
+- **Memory Safety**: RAII principles with proper destructor count management
+- **Cross-platform**: Compatible with Windows, Linux, and macOS
 
 ## Installation
 
 ### Prerequisites
-- C++ compiler with C++17 support (GCC 7.0+, Clang 6.0+, or MSVC 2019+)
+- C++ compiler with C++11 support (GCC 7.0+, Clang 6.0+, or MSVC 2017+)
 - Windows, Linux, or macOS operating system
 - Console/terminal access
 
@@ -47,16 +56,16 @@ The School Management System is a C++ console application designed to demonstrat
    ```
 3. Compile the main application:
    ```bash
-   g++ -std=c++17 -I include -o build/sms.exe src/start.cpp src/Person.cpp src/Student.cpp src/Teacher.cpp src/Staff.cpp src/Utility.cpp src/Database_handler.cpp
+   g++ -std=c++11 -Iinclude -o build/sms.exe src/main.cpp src/Person.cpp src/Student.cpp src/Teacher.cpp src/Staff.cpp src/Utility.cpp src/Database_handler.cpp
    ```
 
 #### Building Test Suites
 ```bash
 # Unit Tests
-g++ -std=c++17 -I include -o build/UnitTest.exe tests/UnitTest.cpp src/Person.cpp src/Student.cpp src/Teacher.cpp src/Staff.cpp src/Utility.cpp
+g++ -std=c++11 -Iinclude -o build/UnitTest.exe tests/UnitTest.cpp src/Person.cpp src/Student.cpp src/Teacher.cpp src/Staff.cpp src/Utility.cpp
 
 # Integration Tests  
-g++ -std=c++17 -I include -o build/IntegrationTest.exe tests/IntegrationTest.cpp src/Person.cpp src/Student.cpp src/Teacher.cpp src/Staff.cpp src/Utility.cpp src/Database_handler.cpp
+g++ -std=c++11 -Iinclude -o build/IntegrationTest.exe tests/IntegrationTest.cpp src/Person.cpp src/Student.cpp src/Teacher.cpp src/Staff.cpp src/Utility.cpp src/Database_handler.cpp
 ```
 
 ## Getting Started
@@ -91,66 +100,77 @@ cd build
 
 ## System Overview
 
-### Object-Oriented Architecture
+### Unified Object-Oriented Architecture
 
-The system demonstrates key OOP principles:
+The system demonstrates advanced OOP principles with a unified design:
 
-#### Inheritance Hierarchy
+#### Inheritance Hierarchy with Unified ID System
 ```
-Person (Abstract Base)
-├── Student (Concrete)
-├── Teacher (Concrete)
-└── Staff (Concrete)
+Person (Abstract Base with unified ID system)
+├── Student (Uses Person::id)
+├── Teacher (Uses Person::id + subject)
+└── Staff (Uses Person::id + designation)
 ```
 
-#### Key Features
-- **Polymorphism**: Virtual functions enable dynamic behavior
-- **Encapsulation**: Private data with public getter/setter methods
-- **Abstraction**: Person class defines common interface
-- **Static Counting**: Track number of objects created for each type
+#### Key Architectural Features
+- **Unified ID System**: All person types use `Person::id` for consistent identification
+- **Polymorphic Operations**: Type-agnostic handling through virtual functions
+- **Centralized Management**: Single ID generation system starting from 1000
+- **Static Counting with Memory Safety**: Proper count management in constructors/destructors
+- **Input Abstraction**: Common and specific input methods for each type
 
-### Data Management
-- **File-based Storage**: Persistent data in text files
-- **Organized Structure**: Separate files for each entity type
-- **Data Integrity**: Validation and error handling
+### Data Management - Unified Approach
+- **Consistent File Storage**: All types save using unified architecture
+- **Type-safe Operations**: Polymorphic save/load while maintaining type integrity
+- **Centralized Search**: `Person::get_person_by_id()` works across all types
+- **Type-specific Search**: Each class implements `get_by_id()` for type filtering
+
+### ID Management System
+- **Range**: IDs start from 1000 and increment
+- **Uniqueness**: System ensures no duplicate IDs across all person types
+- **Persistence**: IDs are maintained across program sessions
+- **Generation**: `give_id()` function provides next available ID
 
 ## Testing the System
 
 ### Interactive Testing Mode
 
-Both test suites offer interactive mode:
+Both test suites offer interactive mode designed for the unified architecture:
 1. When prompted "Do you want to pause after each test? (y/n):", choose:
-   - **'y'**: Detailed mode - pause after each test to review results
-   - **'n'**: Quick mode - run all tests automatically
+   - **'y'**: Detailed mode - examine each test step and unified architecture validation
+   - **'n'**: Quick mode - automated testing of all unified system components
 
-### Unit Test Coverage
-- **Person Basic Functionality**: Name, age, phone, address setters/getters
-- **Student Specific Features**: Student ID, type identification, static counting
-- **Teacher Specific Features**: Teacher ID, subject, inheritance testing
-- **Staff Specific Features**: Staff ID, designation, polymorphic behavior
-- **Polymorphism Testing**: Virtual function calls through base pointers
-- **Utility Functions**: Console formatting and display methods
-- **Edge Cases**: Empty strings, zero values, special characters
+### Unit Test Coverage - Unified Architecture
+- **Person Basic Functionality**: Unified ID system, common setters/getters
+- **Student Specific Features**: Unified ID usage, type identification with inheritance
+- **Teacher Specific Features**: Subject management with unified ID system
+- **Staff Specific Features**: Designation management with unified ID system
+- **Polymorphism Testing**: Virtual function calls using unified architecture
+- **Utility Functions**: Enhanced console features, input validation, color support
+- **Edge Cases**: Boundary testing with unified ID system
 
-### Integration Test Coverage
-- **Complete Person Workflow**: Full object lifecycle testing
-- **Utility System Integration**: UI components working together
-- **File System Integration**: Data directory and file operations
-- **Complete System Simulation**: End-to-end user session simulation
-- **Stress Testing**: Performance with 100+ objects
+### Integration Test Coverage - System-wide
+- **Complete Person Workflow**: Full lifecycle using unified architecture
+- **Utility System Integration**: Enhanced UI with color and input validation
+- **File System Integration**: Unified data persistence across all types
+- **Complete System Simulation**: Real-world usage with unified ID management
+- **Stress Testing**: Performance validation with unified architecture (100+ objects)
 
-### Test Output Format
+### Test Output Format - Enhanced
 ```
 ============================================================
-UNIT TEST: Person Basic Functionality
+UNIT TEST: Student Specific Functionality
 ============================================================
-What this test will do: Testing Person Basic Functionality functionality
+What this test will do: Testing Student class unified ID system and polymorphism
 Starting test...
 
-1. Testing name setter/getter:
-  -> Set name to 'John Doe': [SUCCESS] (Got: John Doe)
+1. Testing unified ID functionality:
+  -> Set unified ID to 12345: [SUCCESS] (Got: 12345)
 
-[PASSED]: Person Basic Functionality
+2. Testing type identification:
+  -> Check if type is 'Student': [SUCCESS] (Got: Student)
+
+[PASSED]: Student Specific Functionality - Unified architecture working correctly
 ```
 
 ## Using the Application
@@ -159,35 +179,74 @@ Starting test...
 1. Navigate to the build directory
 2. Run `.\sms.exe`
 3. Follow the on-screen menu prompts
+4. Use the unified ID system for all operations
 
-### Creating Objects
+### Main Menu Options
+```
+SCHOOL MANAGEMENT SYSTEM
+========================
+1. Enter Data
+2. View Data  
+3. Modify Data
+4. Delete Data
+5. System Statistics
+6. Exit Program
+```
 
-#### Student Objects
+### Creating Objects - Unified Architecture
+
+#### Student Objects (Using Unified ID)
 ```cpp
 Student student;
 student.setName("Alice Johnson");
 student.setAge(19);
 student.setPhone("555-0123");
 student.setAddress("123 College Ave");
-student.setStudentId(2024001);
+student.setId(1001);  // Unified ID system
+// No additional student-specific attributes needed
 ```
 
-#### Teacher Objects
+#### Teacher Objects (Using Unified ID)
 ```cpp
 Teacher teacher;
 teacher.setName("Dr. Robert Smith");
 teacher.setAge(42);
-teacher.setTeacherId(1001);
+teacher.setPhone("555-0201");
+teacher.setAddress("456 Faculty Street");
+teacher.setId(1002);  // Unified ID system
 teacher.setSubject("Computer Science");
 ```
 
-#### Staff Objects
+#### Staff Objects (Using Unified ID)
 ```cpp
 Staff staff;
 staff.setName("Mary Williams");
 staff.setAge(38);
-staff.setStaffId(3001);
+staff.setPhone("555-0301");
+staff.setAddress("789 Admin Building");
+staff.setId(1003);  // Unified ID system
 staff.setDesignation("Registrar");
+```
+
+### Polymorphic Operations
+```cpp
+// Create array of Person pointers
+Person* people[3];
+people[0] = new Student();
+people[1] = new Teacher();
+people[2] = new Staff();
+
+// Set unified IDs
+people[0]->setId(give_id());  // Automatic ID generation
+people[1]->setId(give_id());
+people[2]->setId(give_id());
+
+// Polymorphic operations work seamlessly
+for (int i = 0; i < 3; i++) {
+    people[i]->get_common_inputs();   // Common data collection
+    people[i]->get_specific_inputs(); // Type-specific data
+    people[i]->printDetails();        // Type-specific display
+}
 ```
 
 ### Polymorphic Operations
