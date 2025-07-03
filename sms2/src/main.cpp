@@ -106,6 +106,7 @@ void add_person()
     {
         Utility::print_success_message(person->printType() + " saved successfully.");
     }
+    Utility::print_success_message("ID assigned: " + to_string(id));
     getch();
     // delete person; // Free memory after saving
 }
